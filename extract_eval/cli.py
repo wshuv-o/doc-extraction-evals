@@ -14,20 +14,40 @@ from .scoring import regressions, score
 
 
 def run(extractor, data_dir):
-    rows = []
+    rows, latencies = [], []
     with open(Path(data_dir) / "labels.jsonl", encoding="utf-8") as f:
         for line in f:
             item = json.loads(line)
             text = load_text(Path(data_dir) / "docs" / item["doc"])
+            start = time.perf_counter()
+            predicted = extractor.extract(text)
+            latencies.append((time.perf_counter() - start) * 1000)
             rows.append({"doc": item["doc"], "layout": item["layout"], "expected": item["fields"],
-                         "predicted": extractor.extract(text)})
-    return rows
+                         "predicted": predicted})
+    return rows, latencies
+
+
+def model_calls(extractor):
+    llm = extractor if hasattr(extractor, "calls") else getattr(extractor, "llm", None)
+    return getattr(llm, "calls", 0)
+
+
+def cost_summary(extractor, latencies):
+    ordered = sorted(latencies)
+    pct = lambda p: round(ordered[min(len(ordered) - 1, int(p * len(ordered)))], 1) if ordered else 0.0
+    calls = model_calls(extractor)
+    return {"docs": len(latencies), "model_calls": calls,
+            "model_calls_per_doc": round(calls / len(latencies), 2) if latencies else 0.0,
+            "p50_ms": pct(0.5), "p95_ms": pct(0.95)}
 
 
 def to_markdown(name, summary, elapsed):
+    cost = summary["cost"]
     lines = [f"## Extractor: `{name}`", "",
              f"**Field accuracy: {summary['accuracy']:.1%}** over {summary['fields_scored']} fields "
              f"({summary['wrong_not_blank']} wrong values, rest left blank) in {elapsed:.1f}s", "",
+             f"Model calls: {cost['model_calls']} ({cost['model_calls_per_doc']} per doc) · "
+             f"extraction latency p50 {cost['p50_ms']} ms, p95 {cost['p95_ms']} ms", "",
              "| Field | Accuracy |", "|---|---|"]
     lines += [f"| {f} | {a:.1%} |" for f, a in summary["per_field"].items()]
     lines += ["", "| Layout | Accuracy |", "|---|---|"]
@@ -51,7 +71,9 @@ def main():
 
     extractor = EXTRACTORS[args.extractor]()
     start = time.time()
-    summary = score(run(extractor, args.data))
+    rows, latencies = run(extractor, args.data)
+    summary = score(rows)
+    summary["cost"] = cost_summary(extractor, latencies)
     elapsed = time.time() - start
 
     out = Path(args.out_dir)

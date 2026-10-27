@@ -1,6 +1,8 @@
 ## Extractor: `rules`
 
-**Field accuracy: 66.7%** over 360 fields (0 wrong values, rest left blank) in 1.9s
+**Field accuracy: 66.7%** over 360 fields (0 wrong values, rest left blank) in 1.5s
+
+Model calls: 0 (0.0 per doc) · extraction latency p50 0.2 ms, p95 1.1 ms
 
 | Field | Accuracy |
 |---|---|
