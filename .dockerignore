@@ -1,0 +1,7 @@
+.venv
+.git
+tests
+data
+results
+deploy
+.github

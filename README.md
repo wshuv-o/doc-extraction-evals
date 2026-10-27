@@ -78,6 +78,28 @@ OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 python -m extract_eval.cli --e
 
 The report includes model calls per document, tokens, and p50/p95 extraction latency, so cost and speed regressions are as visible as accuracy regressions.
 
+## Run it as a service on Kubernetes (AWS EKS)
+
+`service/app.py` exposes the extractor as an HTTP API: `POST /v1/extract` (PDF upload) → values, evidence, blank fields.
+
+| Layer | What's there |
+|---|---|
+| **API security** | API key required (constant-time compare, fails closed if none configured) · upload size cap · **PDF magic-byte check** (a renamed HTML file is rejected) · uploads live in a private temp file that is always deleted · logs carry request IDs and timings, **never document contents** |
+| **Container** | Non-root, runs with a read-only root filesystem (CI tests it exactly that way) |
+| **Helm chart** (`deploy/helm`) | Zero-downtime rollouts (`maxUnavailable: 0`, readiness gate, preStop drain), HPA, PDB, spread across availability zones, no service-account token, dropped capabilities. **NetworkPolicy:** ingress only on the API port; egress only to DNS and HTTPS, with private ranges and the **instance metadata endpoint blocked**. Secrets come from Kubernetes Secrets, never values files. |
+| **AWS** (`deploy/terraform`) | VPC (private node subnets), EKS with network-policy enforcement, ECR with **immutable tags + scan on push**, and a **GitHub OIDC deploy role** scoped to this repo's `main` branch and one namespace, so there are no AWS keys in GitHub |
+| **CI** (`.github/workflows/service.yml`) | `pip-audit` · tests · `helm lint` + kubeconform · `terraform validate` · **Trivy image scan** (fails on fixable HIGH/CRITICAL) · container smoke test, read-only, with an auth check |
+| **CD** (`deploy.yml`) | Manual trigger → OIDC → build, push `:<commit-sha>` → `helm upgrade --atomic` (automatic rollback if pods don't become ready) |
+
+```bash
+cd deploy/terraform && terraform apply -var="github_repo=<you>/doc-extraction-evals" -var='admin_cidrs=["<your-ip>/32"]'
+$(terraform output -raw kubeconfig_command)
+kubectl create namespace extraction
+kubectl -n extraction create secret generic extraction-api-keys --from-literal=API_KEYS=$(openssl rand -hex 24)
+# then run the "deploy" workflow, or helm install locally with the ECR image
+```
+**Cost:** the EKS control plane, NAT gateway and two spot nodes cost roughly **$5 a day**. `terraform destroy` when you're done demoing.
+
 ## Design decisions
 
 - **Grounding over trust.** The model must return the exact text it read the value from. If that text isn't in the document, or doesn't parse to the claimed value (for example it quoted the appraised value as the loan amount), the field is rejected. Tests cover hallucinated evidence, mismatched evidence and retry recovery, using a fake client so they run offline.

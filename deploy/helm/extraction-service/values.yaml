@@ -1,0 +1,39 @@
+image:
+  repository: extraction-service      # CI sets this to the ECR repository URL
+  tag: "0.1.0"
+  pullPolicy: IfNotPresent
+
+replicaCount: 2
+
+# Secrets are created outside the chart (kubectl / External Secrets), never committed:
+#   kubectl create secret generic extraction-api-keys --from-literal=API_KEYS=key1,key2
+#   kubectl create secret generic extraction-llm --from-literal=OPENAI_API_KEY=...
+secrets:
+  apiKeys: extraction-api-keys        # must contain API_KEYS
+  llm: ""                             # optional; enables the "hybrid" extractor
+
+maxUploadMB: 10
+
+resources:
+  requests: { cpu: 100m, memory: 256Mi }
+  limits: { memory: 512Mi }
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 8
+  targetCPUUtilizationPercentage: 70
+
+podDisruptionBudget:
+  minAvailable: 1
+
+networkPolicy:
+  enabled: true        # needs a CNI that enforces it (EKS: enable network policy in the VPC CNI add-on)
+
+ingress:
+  enabled: false       # on EKS with the AWS Load Balancer Controller
+  className: alb
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+  host: ""

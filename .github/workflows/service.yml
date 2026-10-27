@@ -1,0 +1,64 @@
+name: service
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  security-and-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt -r requirements-service.txt pip-audit
+      - name: Known vulnerabilities in Python dependencies
+        run: pip-audit -r requirements.txt -r requirements-service.txt
+      - run: pytest -q
+
+  deploy-config:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/setup-helm@v4
+        with:
+          version: v3.16.2
+      - name: helm lint + schema validation
+        run: |
+          helm lint deploy/helm/extraction-service
+          curl -sSL https://github.com/yannh/kubeconform/releases/download/v0.6.7/kubeconform-linux-amd64.tar.gz | tar xz
+          helm template t deploy/helm/extraction-service --set ingress.enabled=true,secrets.llm=extraction-llm \
+            | ./kubeconform -strict -summary
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+      - name: terraform fmt + validate
+        working-directory: deploy/terraform
+        run: |
+          terraform fmt -check
+          terraform init -backend=false -input=false
+          terraform validate
+
+  image:
+    needs: security-and-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t extraction-service:ci .
+      - name: Scan image (fail on fixable HIGH/CRITICAL)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: extraction-service:ci
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: "1"
+      - name: Smoke test the container as it runs in Kubernetes (read-only root, non-root)
+        run: |
+          docker run -d --name api --read-only --tmpfs /tmp -e API_KEYS=ci-key -p 8000:8000 extraction-service:ci
+          for i in $(seq 1 30); do curl -sf localhost:8000/readyz && break; sleep 1; done
+          python -m pip install -q pdfplumber
+          python -c "from extract_eval.pdfgen import write_pdf; write_pdf('t.pdf', ['Borrower: CI Owner LLC', 'Units: 7'])"
+          curl -sf -H 'X-API-Key: ci-key' -F file=@t.pdf localhost:8000/v1/extract | tee out.json
+          grep -q '"units":7' out.json
+          test "$(curl -s -o /dev/null -w '%{http_code}' -F file=@t.pdf localhost:8000/v1/extract)" = "401"

@@ -1,0 +1,42 @@
+name: deploy
+
+# Manual: Actions -> deploy -> Run workflow. Needs repository variables
+# AWS_DEPLOY_ROLE_ARN, AWS_REGION, EKS_CLUSTER, ECR_REPOSITORY (all from `terraform output`).
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write   # OIDC: short-lived AWS credentials, no stored keys
+  contents: read
+
+concurrency: deploy-production
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production   # add required reviewers in repo settings for a manual approval gate
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      - name: Build and push (tag = commit SHA; ECR tags are immutable)
+        run: |
+          IMAGE=${{ vars.ECR_REPOSITORY }}:${{ github.sha }}
+          docker build -t "$IMAGE" .
+          docker push "$IMAGE"
+      - uses: azure/setup-helm@v4
+        with:
+          version: v3.16.2
+      - name: Deploy (rolls back automatically if pods don't become ready)
+        run: |
+          aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER }} --region ${{ vars.AWS_REGION }}
+          helm upgrade --install extraction deploy/helm/extraction-service \
+            --namespace extraction \
+            --set image.repository=${{ vars.ECR_REPOSITORY }} \
+            --set image.tag=${{ github.sha }} \
+            --atomic --wait --timeout 10m
+          kubectl -n extraction rollout status deploy/extraction-extraction-service

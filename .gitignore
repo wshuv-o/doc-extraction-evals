@@ -4,3 +4,7 @@ __pycache__/
 .venv/
 .env
 results/traces_*.jsonl
+deploy/terraform/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars

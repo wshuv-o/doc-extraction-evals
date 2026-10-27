@@ -1,0 +1,6 @@
+apiVersion: v2
+name: extraction-service
+description: LLM document extraction API (rules + grounded LLM fallback)
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
