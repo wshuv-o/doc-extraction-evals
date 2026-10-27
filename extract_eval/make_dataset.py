@@ -105,8 +105,7 @@ def main():
     rng = random.Random(args.seed)
     out = Path(args.out)
     (out / "docs").mkdir(parents=True, exist_ok=True)
-    with open(out / "labels.jsonl", "w", encoding="utf-8", newline="
-") as f:
+    with open(out / "labels.jsonl", "w", encoding="utf-8", newline="\n") as f:
         for i in range(args.n):
             record = random_record(rng)
             layout = LAYOUTS[i % len(LAYOUTS)]

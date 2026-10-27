@@ -1,6 +1,6 @@
 ## Extractor: `rules`
 
-**Field accuracy: 66.7%** over 360 fields (0 wrong values, rest left blank) in 1.4s
+**Field accuracy: 66.7%** over 360 fields (0 wrong values, rest left blank) in 1.9s
 
 | Field | Accuracy |
 |---|---|
