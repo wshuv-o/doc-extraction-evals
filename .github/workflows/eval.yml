@@ -1,0 +1,34 @@
+name: extraction-eval
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test-and-gate:
+    runs-on: ubuntu-latest
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Unit tests
+        run: pytest -q
+      - name: Regenerate dataset (must be deterministic)
+        run: |
+          python -m extract_eval.make_dataset --n 45 --seed 7
+          git diff --exit-code data/labels.jsonl
+      - name: Rules extractor, gated against stored baseline
+        run: python -m extract_eval.cli --extractor rules --min-accuracy 0.6 --baseline results/baseline_rules.json
+      - name: Hybrid extractor (runs only when an API key secret is configured)
+        if: ${{ env.OPENAI_API_KEY != '' }}
+        run: python -m extract_eval.cli --extractor hybrid --min-accuracy 0.95
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-reports
+          path: results/*.md

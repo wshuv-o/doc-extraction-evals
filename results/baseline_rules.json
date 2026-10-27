@@ -1,0 +1,742 @@
+{
+  "accuracy": 0.6667,
+  "fields_scored": 360,
+  "wrong_not_blank": 0,
+  "per_field": {
+    "borrower": 0.6667,
+    "property_address": 0.6667,
+    "loan_amount": 0.6667,
+    "interest_rate": 0.6667,
+    "maturity_date": 0.6667,
+    "ltv": 0.6667,
+    "noi": 0.6667,
+    "units": 0.6667
+  },
+  "per_layout": {
+    "layout_key_value": 1.0,
+    "layout_lender": 1.0,
+    "layout_narrative": 0.0
+  },
+  "failures": [
+    {
+      "doc": "doc_002.pdf",
+      "field": "borrower",
+      "expected": "Lakeshore Investors LLC",
+      "predicted": null
+    },
+    {
+      "doc": "doc_002.pdf",
+      "field": "property_address",
+      "expected": "2029 Park Boulevard, Tampa, FL 33649",
+      "predicted": null
+    },
+    {
+      "doc": "doc_002.pdf",
+      "field": "loan_amount",
+      "expected": 59350000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_002.pdf",
+      "field": "interest_rate",
+      "expected": 5.65,
+      "predicted": null
+    },
+    {
+      "doc": "doc_002.pdf",
+      "field": "maturity_date",
+      "expected": "2029-10-01",
+      "predicted": null
+    },
+    {
+      "doc": "doc_002.pdf",
+      "field": "ltv",
+      "expected": 68.0,
+      "predicted": null
+    },
+    {
+      "doc": "doc_002.pdf",
+      "field": "noi",
+      "expected": 5383000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_002.pdf",
+      "field": "units",
+      "expected": 116,
+      "predicted": null
+    },
+    {
+      "doc": "doc_005.pdf",
+      "field": "borrower",
+      "expected": "Lakeshore Residential LLC",
+      "predicted": null
+    },
+    {
+      "doc": "doc_005.pdf",
+      "field": "property_address",
+      "expected": "7009 Main Street, Nashville, TN 37295",
+      "predicted": null
+    },
+    {
+      "doc": "doc_005.pdf",
+      "field": "loan_amount",
+      "expected": 9900000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_005.pdf",
+      "field": "interest_rate",
+      "expected": 8.05,
+      "predicted": null
+    },
+    {
+      "doc": "doc_005.pdf",
+      "field": "maturity_date",
+      "expected": "2033-06-01",
+      "predicted": null
+    },
+    {
+      "doc": "doc_005.pdf",
+      "field": "ltv",
+      "expected": 72.0,
+      "predicted": null
+    },
+    {
+      "doc": "doc_005.pdf",
+      "field": "noi",
+      "expected": 3018000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_005.pdf",
+      "field": "units",
+      "expected": 324,
+      "predicted": null
+    },
+    {
+      "doc": "doc_008.pdf",
+      "field": "borrower",
+      "expected": "Oak Hollow Residential LLC",
+      "predicted": null
+    },
+    {
+      "doc": "doc_008.pdf",
+      "field": "property_address",
+      "expected": "1420 Oak Avenue, Tampa, FL 33667",
+      "predicted": null
+    },
+    {
+      "doc": "doc_008.pdf",
+      "field": "loan_amount",
+      "expected": 43100000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_008.pdf",
+      "field": "interest_rate",
+      "expected": 8.0,
+      "predicted": null
+    },
+    {
+      "doc": "doc_008.pdf",
+      "field": "maturity_date",
+      "expected": "2032-03-01",
+      "predicted": null
+    },
+    {
+      "doc": "doc_008.pdf",
+      "field": "ltv",
+      "expected": 63.5,
+      "predicted": null
+    },
+    {
+      "doc": "doc_008.pdf",
+      "field": "noi",
+      "expected": 4657000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_008.pdf",
+      "field": "units",
+      "expected": 162,
+      "predicted": null
+    },
+    {
+      "doc": "doc_011.pdf",
+      "field": "borrower",
+      "expected": "Bayview Apartments LP",
+      "predicted": null
+    },
+    {
+      "doc": "doc_011.pdf",
+      "field": "property_address",
+      "expected": "6660 Main Street, Phoenix, AZ 85034",
+      "predicted": null
+    },
+    {
+      "doc": "doc_011.pdf",
+      "field": "loan_amount",
+      "expected": 8850000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_011.pdf",
+      "field": "interest_rate",
+      "expected": 5.8,
+      "predicted": null
+    },
+    {
+      "doc": "doc_011.pdf",
+      "field": "maturity_date",
+      "expected": "2035-03-01",
+      "predicted": null
+    },
+    {
+      "doc": "doc_011.pdf",
+      "field": "ltv",
+      "expected": 53.5,
+      "predicted": null
+    },
+    {
+      "doc": "doc_011.pdf",
+      "field": "noi",
+      "expected": 2935000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_011.pdf",
+      "field": "units",
+      "expected": 327,
+      "predicted": null
+    },
+    {
+      "doc": "doc_014.pdf",
+      "field": "borrower",
+      "expected": "Lakeshore Apartments LP",
+      "predicted": null
+    },
+    {
+      "doc": "doc_014.pdf",
+      "field": "property_address",
+      "expected": "8999 Main Street, Nashville, TN 37277",
+      "predicted": null
+    },
+    {
+      "doc": "doc_014.pdf",
+      "field": "loan_amount",
+      "expected": 32500000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_014.pdf",
+      "field": "interest_rate",
+      "expected": 8.6,
+      "predicted": null
+    },
+    {
+      "doc": "doc_014.pdf",
+      "field": "maturity_date",
+      "expected": "2029-12-01",
+      "predicted": null
+    },
+    {
+      "doc": "doc_014.pdf",
+      "field": "ltv",
+      "expected": 58.0,
+      "predicted": null
+    },
+    {
+      "doc": "doc_014.pdf",
+      "field": "noi",
+      "expected": 4396000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_014.pdf",
+      "field": "units",
+      "expected": 207,
+      "predicted": null
+    },
+    {
+      "doc": "doc_017.pdf",
+      "field": "borrower",
+      "expected": "Maple Grove Residential LLC",
+      "predicted": null
+    },
+    {
+      "doc": "doc_017.pdf",
+      "field": "property_address",
+      "expected": "131 Lake Drive, Nashville, TN 37293",
+      "predicted": null
+    },
+    {
+      "doc": "doc_017.pdf",
+      "field": "loan_amount",
+      "expected": 37200000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_017.pdf",
+      "field": "interest_rate",
+      "expected": 8.6,
+      "predicted": null
+    },
+    {
+      "doc": "doc_017.pdf",
+      "field": "maturity_date",
+      "expected": "2029-11-01",
+      "predicted": null
+    },
+    {
+      "doc": "doc_017.pdf",
+      "field": "ltv",
+      "expected": 53.5,
+      "predicted": null
+    },
+    {
+      "doc": "doc_017.pdf",
+      "field": "noi",
+      "expected": 3332000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_017.pdf",
+      "field": "units",
+      "expected": 420,
+      "predicted": null
+    },
+    {
+      "doc": "doc_020.pdf",
+      "field": "borrower",
+      "expected": "Northgate Owner LLC",
+      "predicted": null
+    },
+    {
+      "doc": "doc_020.pdf",
+      "field": "property_address",
+      "expected": "3557 Main Street, Tampa, FL 33642",
+      "predicted": null
+    },
+    {
+      "doc": "doc_020.pdf",
+      "field": "loan_amount",
+      "expected": 23750000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_020.pdf",
+      "field": "interest_rate",
+      "expected": 6.35,
+      "predicted": null
+    },
+    {
+      "doc": "doc_020.pdf",
+      "field": "maturity_date",
+      "expected": "2036-04-01",
+      "predicted": null
+    },
+    {
+      "doc": "doc_020.pdf",
+      "field": "ltv",
+      "expected": 74.0,
+      "predicted": null
+    },
+    {
+      "doc": "doc_020.pdf",
+      "field": "noi",
+      "expected": 4954000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_020.pdf",
+      "field": "units",
+      "expected": 186,
+      "predicted": null
+    },
+    {
+      "doc": "doc_023.pdf",
+      "field": "borrower",
+      "expected": "Maple Grove Partners LP",
+      "predicted": null
+    },
+    {
+      "doc": "doc_023.pdf",
+      "field": "property_address",
+      "expected": "791 River Road, Denver, CO 80222",
+      "predicted": null
+    },
+    {
+      "doc": "doc_023.pdf",
+      "field": "loan_amount",
+      "expected": 53950000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_023.pdf",
+      "field": "interest_rate",
+      "expected": 7.35,
+      "predicted": null
+    },
+    {
+      "doc": "doc_023.pdf",
+      "field": "maturity_date",
+      "expected": "2036-01-01",
+      "predicted": null
+    },
+    {
+      "doc": "doc_023.pdf",
+      "field": "ltv",
+      "expected": 74.0,
+      "predicted": null
+    },
+    {
+      "doc": "doc_023.pdf",
+      "field": "noi",
+      "expected": 669000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_023.pdf",
+      "field": "units",
+      "expected": 246,
+      "predicted": null
+    },
+    {
+      "doc": "doc_026.pdf",
+      "field": "borrower",
+      "expected": "Lakeshore Partners LP",
+      "predicted": null
+    },
+    {
+      "doc": "doc_026.pdf",
+      "field": "property_address",
+      "expected": "2348 Lake Drive, Nashville, TN 37238",
+      "predicted": null
+    },
+    {
+      "doc": "doc_026.pdf",
+      "field": "loan_amount",
+      "expected": 78450000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_026.pdf",
+      "field": "interest_rate",
+      "expected": 5.1,
+      "predicted": null
+    },
+    {
+      "doc": "doc_026.pdf",
+      "field": "maturity_date",
+      "expected": "2034-08-01",
+      "predicted": null
+    },
+    {
+      "doc": "doc_026.pdf",
+      "field": "ltv",
+      "expected": 55.0,
+      "predicted": null
+    },
+    {
+      "doc": "doc_026.pdf",
+      "field": "noi",
+      "expected": 5620000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_026.pdf",
+      "field": "units",
+      "expected": 446,
+      "predicted": null
+    },
+    {
+      "doc": "doc_029.pdf",
+      "field": "borrower",
+      "expected": "Northgate Apartments LP",
+      "predicted": null
+    },
+    {
+      "doc": "doc_029.pdf",
+      "field": "property_address",
+      "expected": "4337 Lake Drive, Tampa, FL 33629",
+      "predicted": null
+    },
+    {
+      "doc": "doc_029.pdf",
+      "field": "loan_amount",
+      "expected": 56900000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_029.pdf",
+      "field": "interest_rate",
+      "expected": 7.75,
+      "predicted": null
+    },
+    {
+      "doc": "doc_029.pdf",
+      "field": "maturity_date",
+      "expected": "2035-12-01",
+      "predicted": null
+    },
+    {
+      "doc": "doc_029.pdf",
+      "field": "ltv",
+      "expected": 60.0,
+      "predicted": null
+    },
+    {
+      "doc": "doc_029.pdf",
+      "field": "noi",
+      "expected": 882000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_029.pdf",
+      "field": "units",
+      "expected": 162,
+      "predicted": null
+    },
+    {
+      "doc": "doc_032.pdf",
+      "field": "borrower",
+      "expected": "Riverside Residential LLC",
+      "predicted": null
+    },
+    {
+      "doc": "doc_032.pdf",
+      "field": "property_address",
+      "expected": "8293 Elm Street, Denver, CO 80232",
+      "predicted": null
+    },
+    {
+      "doc": "doc_032.pdf",
+      "field": "loan_amount",
+      "expected": 29700000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_032.pdf",
+      "field": "interest_rate",
+      "expected": 6.7,
+      "predicted": null
+    },
+    {
+      "doc": "doc_032.pdf",
+      "field": "maturity_date",
+      "expected": "2028-05-01",
+      "predicted": null
+    },
+    {
+      "doc": "doc_032.pdf",
+      "field": "ltv",
+      "expected": 51.0,
+      "predicted": null
+    },
+    {
+      "doc": "doc_032.pdf",
+      "field": "noi",
+      "expected": 275000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_032.pdf",
+      "field": "units",
+      "expected": 29,
+      "predicted": null
+    },
+    {
+      "doc": "doc_035.pdf",
+      "field": "borrower",
+      "expected": "Sterling Heights Residential LLC",
+      "predicted": null
+    },
+    {
+      "doc": "doc_035.pdf",
+      "field": "property_address",
+      "expected": "8389 Elm Street, Phoenix, AZ 85046",
+      "predicted": null
+    },
+    {
+      "doc": "doc_035.pdf",
+      "field": "loan_amount",
+      "expected": 63300000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_035.pdf",
+      "field": "interest_rate",
+      "expected": 6.05,
+      "predicted": null
+    },
+    {
+      "doc": "doc_035.pdf",
+      "field": "maturity_date",
+      "expected": "2032-01-01",
+      "predicted": null
+    },
+    {
+      "doc": "doc_035.pdf",
+      "field": "ltv",
+      "expected": 64.5,
+      "predicted": null
+    },
+    {
+      "doc": "doc_035.pdf",
+      "field": "noi",
+      "expected": 1668000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_035.pdf",
+      "field": "units",
+      "expected": 100,
+      "predicted": null
+    },
+    {
+      "doc": "doc_038.pdf",
+      "field": "borrower",
+      "expected": "Cedar Ridge Investors LLC",
+      "predicted": null
+    },
+    {
+      "doc": "doc_038.pdf",
+      "field": "property_address",
+      "expected": "8770 River Road, Denver, CO 80229",
+      "predicted": null
+    },
+    {
+      "doc": "doc_038.pdf",
+      "field": "loan_amount",
+      "expected": 69300000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_038.pdf",
+      "field": "interest_rate",
+      "expected": 8.3,
+      "predicted": null
+    },
+    {
+      "doc": "doc_038.pdf",
+      "field": "maturity_date",
+      "expected": "2034-06-01",
+      "predicted": null
+    },
+    {
+      "doc": "doc_038.pdf",
+      "field": "ltv",
+      "expected": 73.0,
+      "predicted": null
+    },
+    {
+      "doc": "doc_038.pdf",
+      "field": "noi",
+      "expected": 4198000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_038.pdf",
+      "field": "units",
+      "expected": 96,
+      "predicted": null
+    },
+    {
+      "doc": "doc_041.pdf",
+      "field": "borrower",
+      "expected": "Copper Mill Holdings LLC",
+      "predicted": null
+    },
+    {
+      "doc": "doc_041.pdf",
+      "field": "property_address",
+      "expected": "8340 Park Boulevard, Columbus, OH 43221",
+      "predicted": null
+    },
+    {
+      "doc": "doc_041.pdf",
+      "field": "loan_amount",
+      "expected": 69500000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_041.pdf",
+      "field": "interest_rate",
+      "expected": 7.85,
+      "predicted": null
+    },
+    {
+      "doc": "doc_041.pdf",
+      "field": "maturity_date",
+      "expected": "2029-12-01",
+      "predicted": null
+    },
+    {
+      "doc": "doc_041.pdf",
+      "field": "ltv",
+      "expected": 73.5,
+      "predicted": null
+    },
+    {
+      "doc": "doc_041.pdf",
+      "field": "noi",
+      "expected": 4031000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_041.pdf",
+      "field": "units",
+      "expected": 149,
+      "predicted": null
+    },
+    {
+      "doc": "doc_044.pdf",
+      "field": "borrower",
+      "expected": "Bayview Residential LLC",
+      "predicted": null
+    },
+    {
+      "doc": "doc_044.pdf",
+      "field": "property_address",
+      "expected": "7740 River Road, Charlotte, NC 28225",
+      "predicted": null
+    },
+    {
+      "doc": "doc_044.pdf",
+      "field": "loan_amount",
+      "expected": 58200000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_044.pdf",
+      "field": "interest_rate",
+      "expected": 5.75,
+      "predicted": null
+    },
+    {
+      "doc": "doc_044.pdf",
+      "field": "maturity_date",
+      "expected": "2032-02-01",
+      "predicted": null
+    },
+    {
+      "doc": "doc_044.pdf",
+      "field": "ltv",
+      "expected": 65.0,
+      "predicted": null
+    },
+    {
+      "doc": "doc_044.pdf",
+      "field": "noi",
+      "expected": 293000,
+      "predicted": null
+    },
+    {
+      "doc": "doc_044.pdf",
+      "field": "units",
+      "expected": 168,
+      "predicted": null
+    }
+  ]
+}
