@@ -43,6 +43,41 @@ pytest -q
 python -m extract_eval.cli --extractor rules --min-accuracy 0.6 --baseline results/baseline_rules.json
 ```
 
+## Use it from an AI agent (MCP server)
+
+The extractor is also an [MCP](https://modelcontextprotocol.io) server, so Claude Desktop, Claude Code, Cursor or any MCP client can call it as a tool:
+
+| Tool | Returns |
+|---|---|
+| `list_fields` | The schema: field names, types and meanings |
+| `extract_document(path, extractor)` | Values, the **verbatim evidence** for each value, and the fields left blank (blank means "send to a human") |
+| `evaluate_extractor(extractor)` | Accuracy on the labelled set, so an agent can check quality before trusting a change |
+
+```bash
+python -m extract_eval.mcp_server      # stdio transport
+```
+
+Claude Desktop / Claude Code config:
+
+```json
+{ "mcpServers": { "doc-extraction": {
+    "command": "python", "args": ["-m", "extract_eval.mcp_server"],
+    "cwd": "/path/to/doc-extraction-evals", "env": { "EXTRACT_DOCS_ROOT": "data" } } } }
+```
+
+Safety: the server is **read-only**, and paths are confined to `EXTRACT_DOCS_ROOT`, so a prompt-injected `../../secrets` path is rejected. Tests cover traversal, non-PDF files and unknown extractors, and the server is smoke-tested over stdio with a real MCP client.
+
+## Tracing (OpenTelemetry)
+
+Every run can be traced: one `extract_document` span per document, with child spans for the rules pass and each `llm.call` (model, fields requested, tokens in/out, retry flag).
+
+```bash
+python -m extract_eval.cli --extractor hybrid --trace-file results/traces_hybrid.jsonl   # JSON lines, offline
+OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 python -m extract_eval.cli --extractor hybrid   # Jaeger / Tempo / Langfuse
+```
+
+The report includes model calls per document, tokens, and p50/p95 extraction latency, so cost and speed regressions are as visible as accuracy regressions.
+
 ## Design decisions
 
 - **Grounding over trust.** The model must return the exact text it read the value from. If that text isn't in the document, or doesn't parse to the claimed value (for example it quoted the appraised value as the loan amount), the field is rejected. Tests cover hallucinated evidence, mismatched evidence and retry recovery, using a fake client so they run offline.
@@ -54,4 +89,3 @@ python -m extract_eval.cli --extractor rules --min-accuracy 0.6 --baseline resul
 
 - Scanned-page variants (render to image and add OCR noise) to measure the OCR path.
 - LLM-as-judge for free-text fields such as addresses, with a written rubric.
-- Cost and latency per document in the report.

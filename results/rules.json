@@ -743,7 +743,9 @@
     "docs": 45,
     "model_calls": 0,
     "model_calls_per_doc": 0.0,
-    "p50_ms": 0.2,
-    "p95_ms": 1.1
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "p50_ms": 1.4,
+    "p95_ms": 3.8
   }
 }
