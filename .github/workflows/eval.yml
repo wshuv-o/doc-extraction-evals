@@ -15,9 +15,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -r requirements.txt
+      - run: pip install -r requirements.txt -r requirements-service.txt
       - name: Unit tests
-        run: pytest -q
+        run: python -m pytest -q
       - name: Regenerate dataset (must be deterministic)
         run: |
           python -m extract_eval.make_dataset --n 45 --seed 7
